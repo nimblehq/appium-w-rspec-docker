@@ -37,6 +37,9 @@
 ### 3. Run your Rspec test:
    - The current setup might have missed some Android SDK tools, but intentionally we won't provide much Android dependencies here, so make sure you had built APK for testing outside first.
    - Copy the Project into this container: `docker cp path/to/your/repo appspec:/project-name`
+   - From here, you can either get INTO that container to execute command, or appending `docker exec -it appspec [your_command]`
+   - Get into the container with bash shell open: `$ docker exec -it appspec /bin/bash`
+   - Now you're inside the container, navigate to your project that contains the Gemfile.
    - Install your required gem: `bundle install`
    - Run your specs: `bundle exec rspec spec/your-specs`
    - NOTE: if you have command to run with `adb` somewhere (e.g: adb install, adb uninstall...), make sure you have specify with `-s $ANDROID_DEVICES` to route the command to the specific emulator you want.
