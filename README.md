@@ -14,7 +14,7 @@
    - VirtualBox (https://www.virtualbox.org/wiki/Downloads)
    - Docker Machine (important for routing connection from container to Android emulator)
    - Docker Engine (https://docs.docker.com/docker-for-mac/install/)
-   - Emulator x86 img.
+   - Emulator x86 img or Genymotion is a good choice too.
 
 ### 2. Installation instructions:
    - After installing the VirtualBox (nothing specific) and Docker Machine, create a docker machine with default opts: `docker-machine create --driver virtualbox default `
