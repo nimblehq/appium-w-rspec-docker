@@ -1,13 +1,14 @@
 # Docker image for Appium (and Node) + Rspec (Ruby) + ADB (Android SDK)
-
-*Drafting:*
+- Forget the pain of setting up node, appium, ruby, rvm...etc before being able to write test with [Appium](http://appium.io/), Docker is here to the rescue. Now you just need to install Docker components and start running your test suites without the hesitate of installation (which might be a bit unfamiliar to Mobile Developers, maybe not familiar with Docker too, but this setup is promised to be less error prone and easy to replicate!).
 
 ## This docker image includes:
   - Node v7.10.1
   - Appium v1.8.1
   - Ruby 2.5.1p57 (with rbenv)
   - Rspec (3.7.0)
-  - Android Build tools v28.0.0
+  - ADB (with android build tools v28.0.0)
+  
+## TODO: Overview & architecture
 
 ## Usage:
 ### 1. Get all installation packages:
