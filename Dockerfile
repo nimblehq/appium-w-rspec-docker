@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-LABEL maintainer "Srinivasan Sekar <srinivasan.sekar1990@gmail.com>"
+LABEL maintainer "Trung Le <trung@nimbl3.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
