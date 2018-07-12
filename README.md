@@ -12,8 +12,8 @@
 ## Usage:
 ### 1. Get all installation packages:
    - VirtualBox (https://www.virtualbox.org/wiki/Downloads)
-   - Docker Machine (important for routing connection from container to Android emulator)
    - Docker Engine (https://docs.docker.com/docker-for-mac/install/)
+   - Docker Machine (important for routing connection from container to Android emulator, already included in Docker installation bundles for Mac version).
    - Emulator x86 img or Genymotion is a good choice too.
 
 ### 2. Installation instructions:
@@ -22,10 +22,14 @@
    - The Docker machine IP could be: 192.168.99.100 and the host machine is assigned as 192.168.99.1
    - Install Docker Engine
    - Clone and cd this Repository.
-   - Make sure the next following steps are executed on the Docker Machine domain: `eval ($docker-machine env default)` // default is the docker machine name.
-   - Start building the Docker image: `docker build . --tag appspec:latest`
+   - Make sure the next following steps are executed on the Docker Machine domain: 
+      `eval ($docker-machine env default)` // default is the docker machine name.
+      *tips: you will need to run this every time opening a new Terminal tab, so load it to your bash profile to get rid of repeating.
+   - Start building the Docker image: 
+     `docker build . --tag appspec:latest` // change the image name and tag as you wish --tag [image_name]:[version]
+     
    - When everything is done, Run a container from that image:
-   - `docker run --privileged -d -p 4723:4723 -e REMOTE_ADB=true -e ANDROID_DEVICES=192.168.99.1:5555 --name appspec-container -i appspec:latest`
+    `docker run --privileged -d -p 4723:4723 -e REMOTE_ADB=true -e ANDROID_DEVICES=192.168.99.1:5555 --name appspec-container -i appspec:latest`
    - Arg explanation: 
       - Port 4723 is opened for Appium connection
       - ANDROID_DEVICES is the IP of the host emulator, with our current setup, the emulator is supposed to run on host machine at port 5555.
