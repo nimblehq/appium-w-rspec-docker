@@ -12,22 +12,28 @@
 
 ## Usage:
 ### 1. Get all installation packages:
-   - VirtualBox (https://www.virtualbox.org/wiki/Downloads)
    - Docker Engine (https://docs.docker.com/docker-for-mac/install/)
-   - Docker Machine (important for routing connection from container to Android emulator, already included in Docker installation bundles for Mac version).
-   - Emulator x86 img or Genymotion is a good choice too.
+   
+   - If you are going to test with emulator from the host machine (I believe that most of us when start approaching this would follow this kind of setup), you might also need:
+     - Docker Machine (This is required for MacOS (and Windows also I suppose), important for routing connection from container to Android emulator).
+     - VirtualBox (https://www.virtualbox.org/wiki/Downloads - for docker machine setup) 
+     - Emulator (x86) image (or Genymotion is a good choice too).
 
 ### 2. Installation instructions:
-   - Install the VirtualBox.
-   - Install Docker Engine & Docker Machine from the package
-   - Create a docker machine with default opts:
+   - Install Docker Engine
+   - Clone and cd to this Repository.
+   
+   - If you're aiming to test with emulator running on the host env:
+      - Install the VirtualBox.
+      - Docker Machine from the package
+      - Create a docker machine with default opts:
      
      `$ docker-machine create --driver virtualbox default `
      
-   - Check for the IP address of that machine (note that the assigning IP step could take some time).
-   - The Docker machine IP could be: **192.168.99.100** and the host machine is assigned to **192.168.99.1**
-   - Clone and cd to this Repository.
-   - Make sure the next following steps are executed on the Docker Machine domain: 
+      - Check for the IP address of that machine (note that the assigning IP step could take some time).
+      - The Docker machine IP could be: **192.168.99.100** and the host machine is assigned to **192.168.99.1**
+   
+      - Make sure the next following steps are executed on the Docker Machine domain: 
    
       `$ eval ($docker-machine env default)` // default is the docker machine name.
       
