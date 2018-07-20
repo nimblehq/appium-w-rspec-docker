@@ -35,7 +35,7 @@
    
       - Make sure the next following steps are executed on the Docker Machine domain: 
    
-      `$ eval ($docker-machine env default)` // default is the docker machine name.
+      `$ eval "($docker-machine env default)"` // default is the docker machine name.
       
       *tips: you will need to run this every time opening a new Terminal tab, so load it to your bash profile to get rid of repeating.
    - Start building the Docker image: 
