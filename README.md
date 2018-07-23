@@ -8,7 +8,10 @@
   - Rspec (3.7.0)
   - ADB (with android build tools v28.0.0)
   
-## TODO: Overview & architecture
+## Overview diagram
+<p align="center">
+  <img id="header" src="./snapshot-images/diagram.jpg" />
+</p>
 
 ## Usage:
 ### 1. Get all installation packages:
