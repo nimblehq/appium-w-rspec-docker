@@ -10,7 +10,7 @@
   
 ## Overview diagram
 <p align="center">
-  <img id="header" src="./snapshot-images/diagram.jpg" />
+  <img src="./snapshot-images/diagram.jpg" width="600"/>
 </p>
 
 ## Usage:
