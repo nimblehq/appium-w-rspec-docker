@@ -10,7 +10,6 @@ if [ ! -z "$ANDROID_DEVICES" ]; then
         if [[ ${connected_devices} != *${array_device}* ]]; then
             echo "Connecting to: ${array_device}"
             adb connect ${array_device}
-            echo "Success!"
         fi
     done
     #Give time to finish connection

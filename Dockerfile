@@ -44,7 +44,7 @@ RUN apt-get -qqy update && \
     wget \
     libqt5webkit5 \
     libgconf-2-4 \
-    xvfb \
+    xvfb python-pip \
   && rm -rf /var/lib/apt/lists/*
 
 #===============
@@ -83,7 +83,7 @@ ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools
 #====================================
 # Install latest nodejs, npm, appium
 #====================================
-ENV APPIUM_VERSION=1.10.0
+ENV APPIUM_VERSION=1.8.1
 
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
     apt-get -qqy install nodejs && \
