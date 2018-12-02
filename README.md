@@ -3,7 +3,7 @@
 
 ## This docker image includes:
   - Node v7.10.1
-  - Appium v1.10.0
+  - Appium v1.8.1
   - Ruby 2.5.1p57 (with rbenv)
   - Rspec (3.7.0)
   - ADB (with android build tools v28.0.0)
