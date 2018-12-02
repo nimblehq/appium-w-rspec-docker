@@ -3,7 +3,7 @@
 
 ## This docker image includes:
   - Node v7.10.1
-  - Appium v1.8.1
+  - Appium v1.10.0
   - Ruby 2.5.1p57 (with rbenv)
   - Rspec (3.7.0)
   - ADB (with android build tools v28.0.0)
@@ -18,44 +18,29 @@
    - Docker Engine (https://docs.docker.com/docker-for-mac/install/)
    
    - If you are going to test with emulator from the host machine (I believe that most of us when start approaching this would follow this kind of setup), you might also need:
-     - Docker Machine (This is required for MacOS (and Windows also I suppose), important for routing connection from container to Android emulator).
-     - VirtualBox (https://www.virtualbox.org/wiki/Downloads - for docker machine setup) 
+     - --Docker Machine (This is required for MacOS (and Windows also I suppose), important for routing connection from container to Android emulator).--
+     - --VirtualBox (https://www.virtualbox.org/wiki/Downloads - for docker machine setup)--
      - Emulator (x86) image (or Genymotion is a good choice too).
 
 ### 2. Installation instructions:
    - Install Docker Engine
    - Clone and cd to this Repository.
    
-   - If you're aiming to test with emulator running on the host env:
-      - Install the VirtualBox.
-      - Docker Machine from the package
-      - Create a docker machine with default opts:
-     
-     `$ docker-machine create --driver virtualbox default `
-     
-      - Check for the IP address of that machine (note that the assigning IP step could take some time).
-      - The Docker machine IP could be: **192.168.99.100** and the host machine is assigned to **192.168.99.1**
-   
-      - Make sure the next following steps are executed on the Docker Machine domain: 
-   
-      `$ eval "($docker-machine env default)"` // default is the docker machine name.
-      
-      *tips: you will need to run this every time opening a new Terminal tab, so load it to your bash profile to get rid of repeating.
    - Start building the Docker image: 
      
      `$ docker build . --tag appspec:latest` // change the image name and tag as you wish --tag [image_name]:[version]
      
    - When everything is done, Run a container from that image:
      
-     `$ docker run --privileged -d -p 4723:4723 -e REMOTE_ADB=true -e ANDROID_DEVICES=192.168.99.1:5555 --name appspec-container -i appspec:latest` 
+     `$ docker run --privileged -d -p 4723:4723 -e REMOTE_ADB=true -e ANDROID_DEVICES=10.0.2.2:5555 --name appspec-container -i appspec:latest` 
      // change the container [name:version] as you wish, simply replace appspec:latest
      
    - Arg explanation: 
       - Port 4723 is opened for Appium connection
-      - ANDROID_DEVICES is the IP of the host emulator, with our current setup, the emulator is supposed to run on host machine at port 5555.
+      - ANDROID_DEVICES is the IP of the host emulator, with our current setup, the emulator is supposed to run on host machine at port 5555. `10.0.2.2` is [a special designed loopback address](https://developer.android.com/studio/run/emulator-networking) to help communication on the same host machine easier.
       - At init, the container will automatically provision for the emulator connection and starting Appium server.
    - Testing: 
-      - Check if appium server is up: curl or access via browser: http://192.168.99.100:4723
+      - Check if appium server is up: curl or access via browser: http://localhost:4723
       - Check if the adb inside container has connected to the emulator: 
         
         `$ docker exec -it appspec-container adb devices` 
