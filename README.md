@@ -15,79 +15,60 @@
 
 ## Usage:
 ### 1. Get all installation packages:
-   - Docker Engine (https://docs.docker.com/docker-for-mac/install/)
-   
-   - If you are going to test with emulator from the host machine (I believe that most of us when start approaching this would follow this kind of setup), you might also need:
-     - Docker Machine (This is required for MacOS (and Windows also I suppose), important for routing connection from container to Android emulator).
-     - VirtualBox (https://www.virtualbox.org/wiki/Downloads - for docker machine setup) 
-     - Emulator (x86) image (or Genymotion is a good choice too).
+  - Docker Engine (https://docs.docker.com/docker-for-mac/install/)
+  - Emulator (x86) image (or Genymotion is a good choice too).
 
 ### 2. Installation instructions:
-   - Install Docker Engine
-   - Clone and cd to this Repository.
+  - Install Docker Engine
+  - Clone and cd to this Repository.
    
-   - If you're aiming to test with emulator running on the host env:
-      - Install the VirtualBox.
-      - Docker Machine from the package
-      - Create a docker machine with default opts:
+  - Start building the Docker image: 
      
-     `$ docker-machine create --driver virtualbox default `
+    `$ docker build . --tag appspec:latest` // change the image name and tag as you wish --tag [image_name]:[version]
      
-      - Check for the IP address of that machine (note that the assigning IP step could take some time).
-      - The Docker machine IP could be: **192.168.99.100** and the host machine is assigned to **192.168.99.1**
-   
-      - Make sure the next following steps are executed on the Docker Machine domain: 
-   
-      `$ eval "($docker-machine env default)"` // default is the docker machine name.
-      
-      *tips: you will need to run this every time opening a new Terminal tab, so load it to your bash profile to get rid of repeating.
-   - Start building the Docker image: 
+  - When everything is done, Run a container from that image:
      
-     `$ docker build . --tag appspec:latest` // change the image name and tag as you wish --tag [image_name]:[version]
+    `$ docker run --privileged -d -p 4723:4723 -e REMOTE_ADB=true -e ANDROID_DEVICES=docker.for.mac.localhost:5555 --name appspec-container -i appspec:latest` 
+    // change the container [name:version] as you wish, simply replace appspec:latest
      
-   - When everything is done, Run a container from that image:
-     
-     `$ docker run --privileged -d -p 4723:4723 -e REMOTE_ADB=true -e ANDROID_DEVICES=192.168.99.1:5555 --name appspec-container -i appspec:latest` 
-     // change the container [name:version] as you wish, simply replace appspec:latest
-     
-   - Arg explanation: 
-      - Port 4723 is opened for Appium connection
-      - ANDROID_DEVICES is the IP of the host emulator, with our current setup, the emulator is supposed to run on host machine at port 5555.
-      - At init, the container will automatically provision for the emulator connection and starting Appium server.
-   - Testing: 
-      - Check if appium server is up: curl or access via browser: http://192.168.99.100:4723
-      - Check if the adb inside container has connected to the emulator: 
+  - Arg explanation: 
+    - Port 4723 is opened for Appium connection
+    - ANDROID_DEVICES is the IP of the host emulator, with our current setup, the emulator is supposed to run on host machine at port 5555. `docker.for.mac.localhost` is [a special designed loopback address](https://forums.docker.com/t/accessing-host-machine-from-within-docker-container/14248/21) to help communicating from docker container to the host's localhost easier.
+    - At init, the container will automatically provision for the emulator connection and starting Appium server.
+  - Validate the setup:
+    - Check if appium server is up: curl or access via browser: http://localhost:4723
+    - Check if the adb inside container has connected to the emulator: 
         
-        `$ docker exec -it appspec-container adb devices` 
-        -> there should be a list showing that specific emulator connected (via its IP address).
+      `$ docker exec -it appspec-container adb devices` 
+      -> there should be a list showing that specific emulator connected (via its IP address).
 
 ### 3. Run your Rspec test:
-   - The current setup might have missed some Android SDK tools, but intentionally we won't provide much Android dependencies here, so **make sure you had built APK** for testing first.
-   - Copy the Project into this container: 
+  - The current setup might have missed some Android SDK tools, but intentionally we won't provide much Android dependencies here, so **make sure you had built APK** for testing first.
+  - Copy the Project into this container: 
      
-     `$ docker cp path/to/your/repo appspec:/project-name`
+    `$ docker cp path/to/your/repo appspec-container:/project-name`
 
-   - From here, you can either get INTO that container to execute command, or appending 
+  - From here, you can either get INTO that container to execute command, or appending 
      
-     `$ docker exec -it appspec [your_command]`
+    `$ docker exec -it appspec-container [your_command]`
    
-   - Get into the container with bash shell open: 
+  - Get into the container with bash shell open: 
    
-     `$ docker exec -it appspec /bin/bash`
+    `$ docker exec -it appspec-container /bin/bash`
    
-   - Now you're inside the container, navigate to your project that contains the Gemfile.
+  - Now you're inside the container, navigate to your project that contains the Gemfile.
    
-     `cd path/to/your/workspace/repo`
+    `cd path/to/your/workspace/repo`
    
-   - Install your required gem: 
+  - Install your required gem: 
      
-     `$ bundle install`
+    `$ bundle install`
    
-   - Run your specs: 
+  - Run your specs: 
      
-     `$ bundle exec rspec spec/your-specs`
+    `$ bundle exec rspec spec/your-specs`
    
-   - NOTE: if your test suites has command to run with `adb` somewhere (e.g: adb install, adb uninstall...), make sure you have specify with `-s $ANDROID_DEVICES` to route the command to the specific emulator you want.
+  - NOTE: if your test suites has command to run with `adb` somewhere (e.g: adb install, adb uninstall...), make sure you have specify with `-s $ANDROID_DEVICES` to route the command to the specific emulator you want.
 
 
 ### Thoughts?

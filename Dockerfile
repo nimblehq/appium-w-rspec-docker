@@ -44,7 +44,7 @@ RUN apt-get -qqy update && \
     wget \
     libqt5webkit5 \
     libgconf-2-4 \
-    xvfb \
+    xvfb python-pip \
   && rm -rf /var/lib/apt/lists/*
 
 #===============
